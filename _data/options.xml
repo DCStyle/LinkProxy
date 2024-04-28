@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="DC_LinkProxy_AutoRedirection" edit_format="onoff" data_type="boolean" advanced="0">
+    <default_value>1</default_value>
+    <relation group_id="DC_LinkProxy" display_order="100"/>
+  </option>
+  <option option_id="DC_LinkProxy_AutoRedirection__time" edit_format="spinbox" data_type="positive_integer" advanced="0">
+    <default_value>3</default_value>
+    <edit_format_params>min=1</edit_format_params>
+    <relation group_id="DC_LinkProxy" display_order="101"/>
+  </option>
+  <option option_id="DC_LinkProxy_DomainWhiteList" edit_format="textbox" data_type="string" advanced="0">
+    <default_value></default_value>
+    <edit_format_params>rows=5</edit_format_params>
+    <relation group_id="DC_LinkProxy" display_order="1"/>
+  </option>
+</options>

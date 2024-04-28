@@ -1,0 +1,19 @@
+{
+    "legacy_addon_id": "",
+    "title": "D.C Style - Link Proxy for XF2",
+    "description": "Encode external urls in posts and add a redirection page to your forum.",
+    "version_id": 1010492,
+    "version_string": "1.1.4 Patch Level 2",
+    "dev": "D.C Style",
+    "dev_url": "https://fb.com/DumpPenguin",
+    "faq_url": "",
+    "support_url": "https://dcstyle.info",
+    "extra_urls": [],
+    "require": {
+        "XF": [
+            2020070,
+            "XenForo 2.2.0+"
+        ]
+    },
+    "icon": "logo.png"
+}

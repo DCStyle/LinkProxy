@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="public" title="DC_LinkProxy.less" version_id="2000170" version_string="2.0.1"><![CDATA[.p-breadcrumbs {
+	display: none;
+}
+
+.DC_LinkProxy {
+	max-width: @xf-responsiveMedium;
+	padding: 20px;
+	margin: 0 auto;
+	border: 1px solid @xf-borderColor;
+	border-radius: @xf-borderRadiusLarge;
+	background: @xf-contentBg;
+	
+	.DC_LinkProxy__title {
+		text-align: center;
+		font-size: 2em;
+		color: @xf-textColorDimmed;
+	}
+	
+	.DC_LinkProxy__content {
+		font-size: 1.05em;
+		color: @xf-textColor;
+		
+		.m-clearFix();
+		
+		.message
+		{
+			margin-bottom: 10px;
+			
+			&.redirecting
+			{
+				font-weight: 500;
+				text-align: center;
+				color: @xf-textColorMuted;
+			}
+		}
+		
+		.DC_LinkProxy_Continune
+		{
+			float: right;
+		}
+	}
+}
+
+/** Time Countdown Animation */
+.circle {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border-radius: 9999px;
+    box-shadow: inset 0 0 0 20px @xf-pageBg;
+	margin: 1.5em auto;
+}
+
+.l-half, .r-half {
+    float: left;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    
+    &:before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border: 20px solid @xf-textColorFeature;
+    }
+        
+}
+
+.l-half:before {
+    border-right: none;
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    -webkit-transform-origin: center right;
+    -webkit-animation-name: l-rotate;
+}
+    
+.r-half:before {
+    border-left: none;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    -webkit-transform-origin: center left;
+    -webkit-animation-name: r-rotate;
+}
+
+.count {
+    position: absolute;
+    width: 100%;
+    line-height: 100px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    color: @xf-textColorFeature;
+    z-index: 2;
+}
+
+@-webkit-keyframes l-rotate {
+	0% { -webkit-transform: rotate(0deg); }
+	50% { -webkit-transform: rotate(-180deg); }
+	100% { -webkit-transform: rotate(-180deg); }
+}
+
+@-webkit-keyframes r-rotate {
+	0% { -webkit-transform: rotate(0deg); }
+	50% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(-180deg); }
+}
+
+@-webkit-keyframes fadeout {
+	0% { opacity: 1; }
+	100% { opacity: 0.5; }
+}]]></template>
+  <template type="public" title="DC_LinkProxy_Redirecting" version_id="1010470" version_string="1.1.4"><![CDATA[<xf:title>{{ phrase('DC_LinkProxy_Redirecting') }}</xf:title>
+<xf:h1 hidden="true" />
+
+<xf:head option="metaNoindex"><meta name="robots" content="noindex" /></xf:head>
+
+<xf:css src="DC_LinkProxy.less" />
+<xf:css>
+	.count {
+		-webkit-animation-fill-mode: forwards;	
+	}
+	
+	.l-half:before, .r-half:before
+	{
+		-webkit-animation-duration: {$xf.options.DC_LinkProxy_AutoRedirection__time}s;
+        -webkit-animation-iteration-count: 1;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-fill-mode: forwards;
+	}
+</xf:css>
+
+<xf:form action="{{ link('redirect', null, {'to': $encodedUrl, 'post': $post.post_id}) }}" class="DC_LinkProxy js-redirection-timer-form">
+	<div class="DC_LinkProxy__wrapper">
+		<h3 class="DC_LinkProxy__title">{{ phrase('DC_LinkProxy_title') }}</h3>
+		<div class="DC_LinkProxy__content">
+			<div class="message">
+				{{ phrase('DC_LinkProxy_you_are_going_to:') }} <b>{$url}</b>
+				<br/><br/>
+				{{ phrase('DC_LinkProxy_from_post_by_user_x:', {'username': $post.username}) }} <b><a href="{{ link('posts', $post) }}">{{ phrase('url') }}</a></b>
+				<br/><br/>
+				{{ phrase('DC_LinkProxy_message') }}
+			</div>
+			
+			<xf:if is="{$xf.options.DC_LinkProxy_AutoRedirection}">
+				<xf:js src="DC/LinkProxy/redirection_timer.js" min="1" />
+				
+				<div class="message redirecting js-redirection-timer-container"
+					 data-xf-init="redirection-timer"
+					 data-duration="{$xf.options.DC_LinkProxy_AutoRedirection__time}">
+					{{ phrase('DC_LinkProxy_you_will_be_redirected_in') }}
+					
+					<div class="circle">
+						<div class="count">
+							<span id="DC_LinkProxy_AutoRedirection__timer" class="js-redirection-timer">
+								{$xf.options.DC_LinkProxy_AutoRedirection__time}
+							</span>
+						</div>
+						
+						<div class="l-half"></div>
+						<div class="r-half"></div>
+					</div>
+				
+				</div>
+			</xf:if>
+				
+			<xf:button type="submit" class="DC_LinkProxy_Continune">
+				{{ phrase('DC_LinkProxy_continue') }}
+			</xf:button>
+		</div>
+	</div>
+</xf:form>]]></template>
+</templates>
