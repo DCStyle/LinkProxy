@@ -7,6 +7,49 @@ use XF\Mvc\Entity\Repository;
 
 class LinkProxy extends Repository
 {
+	protected function reverseUrl($url)
+	{
+		$parts = explode('.', $url);
+		$reversedParts = array_reverse($parts);
+
+		return implode('.', $reversedParts);
+	}
+
+	protected function generatePossibleMatches($url)
+	{
+	    // Extract the domain and the full URL path without scheme
+	    $domain = parse_url($url, PHP_URL_HOST);
+	    $fullPath = parse_url($url, PHP_URL_HOST) . parse_url($url, PHP_URL_PATH) . '?' . parse_url($url, PHP_URL_QUERY);
+
+	    $domain = strtolower($domain);
+	    $domain = ltrim($domain, 'www.'); // Remove "www" if present
+
+	    // Split the domain into parts and reverse to start from the top-level domain
+	    $domainParts = array_reverse(explode('.', $domain));
+	    $possibleMatches = [];
+	    $subdomain = '';
+
+	    // Add the full URL path first
+	    $possibleMatches[] = rtrim($fullPath, '?'); // Remove trailing '?' if no query parameters
+
+	    // Construct all possible subdomains and the domain itself
+	    foreach ($domainParts as $index => $part)
+		{
+	        if ($subdomain === '') {
+	            $subdomain = $part;
+	        } else {
+				$subdomain = $subdomain . '.' . $part;
+			}
+
+			// Only add subdomains that include a dot (thus skipping top-level domain alone)
+			if (str_contains($subdomain, '.')) {
+				$possibleMatches[] = $this->reverseUrl($subdomain);
+			}
+		}
+
+		return array_unique($possibleMatches);
+	}
+
 	/**
 	 * @param \XF\Mvc\Entity\Entity $content
 	 * @return bool
@@ -53,29 +96,26 @@ class LinkProxy extends Repository
 			return null;
 		}
 
-		$options = $this->options();
-
+		// Split the domain whitelist into an array, removing any extra spaces
 		/** Check white listed domains */
-		$domainWhiteListed = $options->DC_LinkProxy_DomainWhiteList;
-		$domainWhiteListedArray = explode("\n", $domainWhiteListed);
-		$domain = parse_url($url, PHP_URL_HOST);
-		$domain = ltrim($domain, 'www.'); // Remove "www" from base URL
+		$domainWhiteListed = $this->options()->DC_LinkProxy_DomainWhiteList;
+		$domainWhiteListedArray = array_map('trim', explode("\n", $domainWhiteListed));
 
-		$urlEncoded = $this->app()->router('public')->buildLink('redirect', null, [
+		$possibleMatches = $this->generatePossibleMatches($url);
+		foreach($possibleMatches AS $possibleMatch)
+		{
+			// Check the exact match and subdomain match
+			if (in_array($possibleMatch, $domainWhiteListedArray) || in_array('.' . $possibleMatch, $domainWhiteListedArray)) {
+				return $url; // Return the original URL if the domain is whitelisted
+			}
+		}
+
+		// Perform encoding if no match found in whitelist
+		return $this->app()->router('public')->buildLink('redirect', null, [
 			'to' => base64_encode(htmlspecialchars($url)),
 			'content_type' => $content->getEntityContentType(),
 			'content_id' => $content->getEntityId()
 		]);
-
-		foreach ($domainWhiteListedArray as $value)
-		{
-			if ($domain == $value)
-			{
-				$urlEncoded = $url;
-			}
-		}
-
-		return $urlEncoded;
 	}
 
 	/**
