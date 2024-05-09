@@ -2,20 +2,53 @@
 
 namespace DC\LinkProxy\Repository;
 
+use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
 
 class LinkProxy extends Repository
 {
 	/**
+	 * @param \XF\Mvc\Entity\Entity $content
+	 * @return bool
+	 */
+	public function isContentTypeSupported($content)
+	{
+		if (!$content instanceof Entity)
+		{
+			return false;
+		}
+
+		$contentType = $content->getEntityContentType();
+		$supportedContentTypes = $this->options()->DC_LinkProxy_SupportedContentTypes;
+		if (!isset($supportedContentTypes[$contentType]) || !$supportedContentTypes[$contentType])
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get content message field, which includes the original URL
+	 *
+	 * @param string $contentType
+	 * @return string
+	 */
+	public function getContentMessageField($contentType)
+	{
+		return 'message';
+	}
+
+	/**
 	 * Process proxy a URL and return the encoded URL
 	 *
 	 * @param string $url
-	 * @param \XF\Entity\Post $post
+	 * @param \XF\Mvc\Entity\Entity $content
 	 * @return string
 	 */
-	public function proxyUrl($url, $post)
+	public function proxyUrl($url, $content)
 	{
-		if (!$post instanceof \XF\Entity\Post)
+		if (!$this->isContentTypeSupported($content))
 		{
 			return null;
 		}
@@ -30,7 +63,8 @@ class LinkProxy extends Repository
 
 		$urlEncoded = $this->app()->router('public')->buildLink('redirect', null, [
 			'to' => base64_encode(htmlspecialchars($url)),
-			'post' => $post->post_id
+			'content_type' => $content->getEntityContentType(),
+			'content_id' => $content->getEntityId()
 		]);
 
 		foreach ($domainWhiteListedArray as $value)
@@ -48,9 +82,11 @@ class LinkProxy extends Repository
 	 * Decode a URL
 	 *
 	 * @param string $encodedUrl
+	 * @param \XF\Mvc\Entity\Entity $content
+	 *
 	 * @return string|false
 	 */
-	public function decodeUrl($encodedUrl, $postId)
+	public function decodeUrl($encodedUrl, $content)
 	{
 		$urlDecoded = base64_decode($encodedUrl);
 		if (filter_var($urlDecoded, FILTER_VALIDATE_URL) === FALSE)
@@ -58,14 +94,25 @@ class LinkProxy extends Repository
 			return false;
 		}
 
-		/** @var \XF\Entity\Post $post */
-		$post = $this->em->find('XF:Post', $postId);
-		if (!$post)
+		if (!$this->isContentTypeSupported($content))
 		{
 			return false;
 		}
 
-		$message = strtolower($post->message);
+		$contentStructureColumns = $content->structure()->columns;
+		$messageField = $this->getContentMessageField($content->getEntityContentType());
+		if (!isset($contentStructureColumns[$messageField]))
+		{
+			return false;
+		}
+
+		$message = $content->{$messageField};
+		if (!$message || !is_string($message))
+		{
+			return false;
+		}
+
+		$message = strtolower($message);
 		if (!str_contains($message, $urlDecoded))
 		{
 			return false;

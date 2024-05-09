@@ -1,0 +1,60 @@
+<xf:title>{{ phrase('DC_LinkProxy_Redirecting') }}</xf:title>
+<xf:h1 hidden="true" />
+
+<xf:head option="metaNoindex"><meta name="robots" content="noindex" /></xf:head>
+
+<xf:css src="DC_LinkProxy.less" />
+<xf:css>
+	.count {
+		-webkit-animation-fill-mode: forwards;	
+	}
+	
+	.l-half:before, .r-half:before
+	{
+		-webkit-animation-duration: {$xf.options.DC_LinkProxy_AutoRedirection__time}s;
+        -webkit-animation-iteration-count: 1;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-fill-mode: forwards;
+	}
+</xf:css>
+
+<xf:form action="{{ link('redirect', null, {'to': $encodedUrl, 'content_type': $contentType, 'content_id': $contentId}) }}" class="DC_LinkProxy js-redirection-timer-form">
+	<div class="DC_LinkProxy__wrapper">
+		<h3 class="DC_LinkProxy__title">{{ phrase('DC_LinkProxy_title') }}</h3>
+		<div class="DC_LinkProxy__content">
+			<div class="message">
+				{{ phrase('DC_LinkProxy_you_are_going_to:') }} <b>{$url}</b>
+				<br/><br/>
+				{{ phrase('DC_LinkProxy_from_content_x', {'contentUrl': $contentUrl}) }}
+				<br/><br/>
+				{{ phrase('DC_LinkProxy_message') }}
+			</div>
+			
+			<xf:if is="{$xf.options.DC_LinkProxy_AutoRedirection}">
+				<xf:js src="DC/LinkProxy/redirection_timer.js" min="1" />
+				
+				<div class="message redirecting js-redirection-timer-container"
+					 data-xf-init="redirection-timer"
+					 data-duration="{$xf.options.DC_LinkProxy_AutoRedirection__time}">
+					{{ phrase('DC_LinkProxy_you_will_be_redirected_in') }}
+					
+					<div class="circle">
+						<div class="count">
+							<span id="DC_LinkProxy_AutoRedirection__timer" class="js-redirection-timer">
+								{$xf.options.DC_LinkProxy_AutoRedirection__time}
+							</span>
+						</div>
+						
+						<div class="l-half"></div>
+						<div class="r-half"></div>
+					</div>
+				
+				</div>
+			</xf:if>
+				
+			<xf:button type="submit" class="DC_LinkProxy_Continune">
+				{{ phrase('DC_LinkProxy_continue') }}
+			</xf:button>
+		</div>
+	</div>
+</xf:form>

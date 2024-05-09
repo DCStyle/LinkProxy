@@ -11,16 +11,12 @@ class Html extends XFCP_Html
 		$link = $this->formatter->getLinkClassTarget($url);
 		if ($link['type'] != 'internal')
 		{
-			$post = $options['entity'] ?? null;
-			if (!$post instanceof \XF\Entity\Post)
-			{
-				return $urlTagString;
-			}
+			$content = $options['entity'] ?? null;
 
 			/** @var \DC\LinkProxy\Repository\LinkProxy $linkProxyRepo */
 			$linkProxyRepo = \XF::repository('DC\LinkProxy:LinkProxy');
 
-			$urlEncoded = $linkProxyRepo->proxyUrl($url, $post);
+			$urlEncoded = $linkProxyRepo->proxyUrl($url, $content);
 			if (!$urlEncoded)
 			{
 				return $urlTagString;

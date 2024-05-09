@@ -14,4 +14,18 @@
     <edit_format_params>rows=5</edit_format_params>
     <relation group_id="DC_LinkProxy" display_order="1"/>
   </option>
+  <option option_id="DC_LinkProxy_SupportedContentTypes" edit_format="checkbox" data_type="array" advanced="0">
+    <default_value>{"post":true,"profile_post":true,"resource_update":true,"xfmg_album":true,"xfmg_media":true}</default_value>
+    <edit_format_params>post=XF:Post
+profile_post=XF:ProfilePost
+resource_update=XFRM:ResourceUpdate
+xfmg_album=XFMG:Album
+xfmg_media=XFMG:Media</edit_format_params>
+    <sub_options>post
+profile_post
+resource_update
+xfmg_album
+xfmg_media</sub_options>
+    <relation group_id="DC_LinkProxy" display_order="2"/>
+  </option>
 </options>

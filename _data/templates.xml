@@ -113,7 +113,7 @@
 	0% { opacity: 1; }
 	100% { opacity: 0.5; }
 }]]></template>
-  <template type="public" title="DC_LinkProxy_Redirecting" version_id="1010470" version_string="1.1.4"><![CDATA[<xf:title>{{ phrase('DC_LinkProxy_Redirecting') }}</xf:title>
+  <template type="public" title="DC_LinkProxy_Redirecting" version_id="1010493" version_string="1.1.4 Patch Level 3"><![CDATA[<xf:title>{{ phrase('DC_LinkProxy_Redirecting') }}</xf:title>
 <xf:h1 hidden="true" />
 
 <xf:head option="metaNoindex"><meta name="robots" content="noindex" /></xf:head>
@@ -133,14 +133,14 @@
 	}
 </xf:css>
 
-<xf:form action="{{ link('redirect', null, {'to': $encodedUrl, 'post': $post.post_id}) }}" class="DC_LinkProxy js-redirection-timer-form">
+<xf:form action="{{ link('redirect', null, {'to': $encodedUrl, 'content_type': $contentType, 'content_id': $contentId}) }}" class="DC_LinkProxy js-redirection-timer-form">
 	<div class="DC_LinkProxy__wrapper">
 		<h3 class="DC_LinkProxy__title">{{ phrase('DC_LinkProxy_title') }}</h3>
 		<div class="DC_LinkProxy__content">
 			<div class="message">
 				{{ phrase('DC_LinkProxy_you_are_going_to:') }} <b>{$url}</b>
 				<br/><br/>
-				{{ phrase('DC_LinkProxy_from_post_by_user_x:', {'username': $post.username}) }} <b><a href="{{ link('posts', $post) }}">{{ phrase('url') }}</a></b>
+				{{ phrase('DC_LinkProxy_from_content_x', {'contentUrl': $contentUrl}) }}
 				<br/><br/>
 				{{ phrase('DC_LinkProxy_message') }}
 			</div>

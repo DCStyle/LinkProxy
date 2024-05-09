@@ -73,18 +73,6 @@ class Setup extends AbstractSetup
 	{
 		$tables = [];
 
-		/**
-		$tables['xf_dcLinkProxy_link'] = function(Create $table)
-		{
-			$table->checkExists(true);
-            $table->addColumn('link_id', 'int', 10)->autoIncrement()->nullable();
-			$table->addColumn('post_id', 'int', 10);
-			$table->addColumn('encoded_url', 'text');
-			$table->addColumn('decoded_url', 'text');
-            $table->addColumn('status', 'enum')->values(['active', 'blocked'])->setDefault('active');
-            $table->addColumn('generated_date', 'int', 10);
-		};*/
-
         return $tables;
     }
 

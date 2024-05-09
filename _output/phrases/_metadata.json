@@ -1,0 +1,20 @@
+{
+    "DC_LinkProxy_from_content_x.txt": {
+        "global_cache": false,
+        "version_id": 1010493,
+        "version_string": "1.1.4 Patch Level 3",
+        "hash": "47e56342b63c70a52e7d2552c78f110a"
+    },
+    "option.DC_LinkProxy_SupportedContentTypes.txt": {
+        "global_cache": false,
+        "version_id": 1010493,
+        "version_string": "1.1.4 Patch Level 3",
+        "hash": "d5b6601285d70ded706b790bb8915ba8"
+    },
+    "option_explain.DC_LinkProxy_SupportedContentTypes.txt": {
+        "global_cache": false,
+        "version_id": 1010493,
+        "version_string": "1.1.4 Patch Level 3",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "edit_format": "checkbox",
+    "edit_format_params": "post=XF:Post\nprofile_post=XF:ProfilePost\nresource_update=XFRM:ResourceUpdate\nxfmg_album=XFMG:Album\nxfmg_media=XFMG:Media",
+    "data_type": "array",
+    "sub_options": [
+        "post",
+        "profile_post",
+        "resource_update",
+        "xfmg_album",
+        "xfmg_media"
+    ],
+    "validation_class": "",
+    "validation_method": "",
+    "advanced": false,
+    "default_value": "{\"post\":true,\"profile_post\":true,\"resource_update\":true,\"xfmg_album\":true,\"xfmg_media\":true}",
+    "relations": {
+        "DC_LinkProxy": 2
+    }
+}

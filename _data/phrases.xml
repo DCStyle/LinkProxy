@@ -2,7 +2,7 @@
 <phrases>
   <phrase title="DC_LinkProxy_Redirecting" version_id="1000000" version_string="1.0.0"><![CDATA[Redirecting...]]></phrase>
   <phrase title="DC_LinkProxy_continue" version_id="1010470" version_string="1.1.4"><![CDATA[Continue]]></phrase>
-  <phrase title="DC_LinkProxy_from_post_by_user_x" version_id="1010470" version_string="1.1.4"><![CDATA[From post by {username}]]></phrase>
+  <phrase title="DC_LinkProxy_from_content_x" version_id="1010493" version_string="1.1.4 Patch Level 3"><![CDATA[From original content <b><a href="{contentUrl}">here</a></b>]]></phrase>
   <phrase title="DC_LinkProxy_message" version_id="1000000" version_string="1.0.0"><![CDATA[The referring site you are being redirected to is not controlled by us, so please remember not to enter your Username and Password unless you are on our board. Also be sure to download software from sites you trust. And remember to read the site's Privacy Policy.]]></phrase>
   <phrase title="DC_LinkProxy_title" version_id="1000000" version_string="1.0.0"><![CDATA[Please be careful...]]></phrase>
   <phrase title="DC_LinkProxy_url_not_valid" version_id="1000000" version_string="1.0.0"><![CDATA[Url is not valid.]]></phrase>
@@ -11,6 +11,7 @@
   <phrase title="option.DC_LinkProxy_AutoRedirection" version_id="1000000" version_string="1.0.0"><![CDATA[Enable automatic redirection]]></phrase>
   <phrase title="option.DC_LinkProxy_AutoRedirection__time" version_id="1000000" version_string="1.0.0"><![CDATA[Auto redirection time]]></phrase>
   <phrase title="option.DC_LinkProxy_DomainWhiteList" version_id="1000000" version_string="1.0.0"><![CDATA[Domain White List]]></phrase>
+  <phrase title="option.DC_LinkProxy_SupportedContentTypes" version_id="1010493" version_string="1.1.4 Patch Level 3"><![CDATA[Supported content types]]></phrase>
   <phrase title="option_explain.DC_LinkProxy_AutoRedirection" version_id="1000000" version_string="1.0.0"><![CDATA[You can disable automatic redirection if you want your visitor to click "Continue" on the redirection page to visit the page, instead of automatically being redirected.]]></phrase>
   <phrase title="option_explain.DC_LinkProxy_AutoRedirection__time" version_id="1000000" version_string="1.0.0"><![CDATA[Enter auto redirection time in seconds.]]></phrase>
   <phrase title="option_explain.DC_LinkProxy_DomainWhiteList" version_id="1010491" version_string="1.1.4 Patch Level 1"><![CDATA[Enter the domain names/hostnames that you do not want to anonymize/redirect. <b>Only one domain per line.</b><br/>
@@ -18,6 +19,7 @@ If you want to white list an entire domain including its sub-domains, <b>only ad
 If you want to white list a domain's sub-domains and not the top level one, <b>add .domain.com.</b>
 <br/>
 <b>DO NOT</b> include the "www" part]]></phrase>
+  <phrase title="option_explain.DC_LinkProxy_SupportedContentTypes" version_id="1010493" version_string="1.1.4 Patch Level 3"><![CDATA[]]></phrase>
   <phrase title="option_group.DC_LinkProxy" version_id="1000000" version_string="1.0.0"><![CDATA[D.C Style - Link Proxy]]></phrase>
   <phrase title="option_group_description.DC_LinkProxy" version_id="1000000" version_string="1.0.0"><![CDATA[]]></phrase>
 </phrases>
