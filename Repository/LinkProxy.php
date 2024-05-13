@@ -152,7 +152,6 @@ class LinkProxy extends Repository
 			return false;
 		}
 
-		$message = strtolower($message);
 		if (!str_contains($message, $urlDecoded))
 		{
 			return false;
